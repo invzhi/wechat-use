@@ -1,0 +1,38 @@
+services:
+  cua-spacesd:
+    image: cua-spacesd
+    build: .
+    user: 1000:1000
+    pid: "service:wechat"
+    ports:
+      - 3211:3211
+    depends_on:
+      wechat:
+        condition: service_healthy
+        restart: true
+    environment:
+      DISPLAY: :0
+      DBUS_SESSION_BUS_ADDRESS: unix:path=/tmp/dbus.base
+      CUA_ENV_TOKEN: $CUA_ENV_TOKEN
+    volumes:
+      - tmpdir:/tmp
+  wechat:
+    image: wechat
+    build: wechat
+    network_mode: host
+    healthcheck:
+      test: ["CMD", "test", "-S", "/tmp/.X11-unix/X0"]
+      interval: 10s
+      timeout: 1s
+    environment:
+      WEB_LISTENING_PORT: 5800
+      USER_ID: ${USER_ID:-1000}
+      GROUP_ID: ${GROUP_ID:-1000}
+      KEEP_APP_RUNNING: 1
+      VNC_LISTENING_PORT: -1
+    volumes:
+      - tmpdir:/tmp
+      - ./wechat/.xwechat:/config/.xwechat
+      - ./wechat/xwechat_files:/config/xwechat_files
+volumes:
+  tmpdir:
