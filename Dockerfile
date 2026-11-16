@@ -1,12 +1,5 @@
 FROM debian:trixie-slim AS build
 
-# Setup sources.
-RUN cat /etc/apt/sources.list.d/debian.sources \
-		| sed 's/deb.debian.org/mirrors.ustc.edu.cn/' \
-		> /etc/apt/sources.list.d/debian.sources.new \
-	; \
-	mv /etc/apt/sources.list.d/debian.sources.new /etc/apt/sources.list.d/debian.sources
-
 # Install dependencies.
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 	--mount=type=cache,target=/var/lib/apt,sharing=locked \
@@ -22,7 +15,16 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 
 # Install cua-spacesd.
 RUN set -eux; \
-	curl -fL -o /tmp/cua-spacesd.tar.gz https://github.com/trycua/cua/releases/download/cua-spacesd-v0.16.1/cua-spacesd-linux-x86_64.tar.gz; \
+	arch="$(dpkg --print-architecture)"; arch="${arch##*-}"; \
+	case "$arch" in \
+		'amd64') \
+			url='https://github.com/trycua/cua/releases/download/cua-spacesd-v0.16.1/cua-spacesd-linux-x86_64.tar.gz'; \
+			;; \
+		'arm64') \
+			url='https://github.com/trycua/cua/releases/download/cua-spacesd-v0.16.1/cua-spacesd-linux-aarch64.tar.gz'; \
+			;; \
+	esac; \
+	curl -fL -o /tmp/cua-spacesd.tar.gz "$url"; \
 	tar -xzf /tmp/cua-spacesd.tar.gz -C /usr/local/bin cua-spacesd; \
 	rm /tmp/cua-spacesd.tar.gz
 

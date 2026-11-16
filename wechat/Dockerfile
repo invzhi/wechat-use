@@ -1,8 +1,5 @@
 FROM jlesage/baseimage-gui:debian-13-v4.14.0
 
-# Setup sources.
-RUN sed-patch 's/deb.debian.org/mirrors.ustc.edu.cn/' /etc/apt/sources.list.d/debian.sources
-
 # Install WeChat.
 RUN set -eux; \
 	add-pkg \
