@@ -1,7 +1,6 @@
 services:
   cua-spacesd:
-    image: cua-spacesd
-    build: .
+    image: ghcr.io/invzhi/wechat-use-cua-spacesd:0.1
     user: 1000:1000
     pid: "service:wechat"
     ports:
@@ -17,8 +16,7 @@ services:
     volumes:
       - tmpdir:/tmp
   wechat:
-    image: wechat
-    build: wechat
+    image: ghcr.io/invzhi/wechat-use-wechat:0.1
     network_mode: host
     healthcheck:
       test: ["CMD", "test", "-S", "/tmp/.X11-unix/X0"]
