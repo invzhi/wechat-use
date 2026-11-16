@@ -18,19 +18,19 @@ services:
   wechat:
     image: ghcr.io/invzhi/wechat-use-wechat:0.1
     network_mode: host
-    healthcheck:
-      test: ["CMD", "test", "-S", "/tmp/.X11-unix/X0"]
-      interval: 10s
-      timeout: 1s
     environment:
-      WEB_LISTENING_PORT: 5800
       USER_ID: ${USER_ID:-1000}
       GROUP_ID: ${GROUP_ID:-1000}
       KEEP_APP_RUNNING: 1
+      WEB_LISTENING_PORT: 5800
       VNC_LISTENING_PORT: -1
     volumes:
       - tmpdir:/tmp
       - ./wechat/.xwechat:/config/.xwechat
       - ./wechat/xwechat_files:/config/xwechat_files
+    healthcheck:
+      test: ["CMD", "test", "-S", "/tmp/.X11-unix/X0"]
+      interval: 10s
+      timeout: 1s
 volumes:
   tmpdir:
