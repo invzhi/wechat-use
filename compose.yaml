@@ -17,7 +17,12 @@ services:
       - tmpdir:/tmp
   wechat:
     image: ghcr.io/invzhi/wechat-use-wechat:0.1
-    network_mode: host
+    # Networking: enable exactly ONE option.
+    # Option 1: Host networking, when you need to import/export chat history.
+    # network_mode: host
+    # Option 2: Port mapping.
+    ports:
+      - "5800:5800"
     environment:
       USER_ID: ${USER_ID:-1000}
       GROUP_ID: ${GROUP_ID:-1000}
