@@ -18,10 +18,10 @@ RUN set -eux; \
 	arch="$(dpkg --print-architecture)"; arch="${arch##*-}"; \
 	case "$arch" in \
 		'amd64') \
-			url='https://github.com/trycua/cua/releases/download/cua-spacesd-v0.16.1/cua-spacesd-linux-x86_64.tar.gz'; \
+			url='https://github.com/trycua/cua/releases/download/cua-spacesd-v0.16.6/cua-spacesd-linux-x86_64.tar.gz'; \
 			;; \
 		'arm64') \
-			url='https://github.com/trycua/cua/releases/download/cua-spacesd-v0.16.1/cua-spacesd-linux-aarch64.tar.gz'; \
+			url='https://github.com/trycua/cua/releases/download/cua-spacesd-v0.16.6/cua-spacesd-linux-aarch64.tar.gz'; \
 			;; \
 	esac; \
 	curl -fL -o /tmp/cua-spacesd.tar.gz "$url"; \
