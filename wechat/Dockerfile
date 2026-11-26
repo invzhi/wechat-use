@@ -1,4 +1,4 @@
-FROM jlesage/baseimage-gui:debian-13-v4.15.0
+FROM jlesage/baseimage-gui:debian-13-v4.15.1
 
 # Install WeChat.
 RUN set -eux; \
